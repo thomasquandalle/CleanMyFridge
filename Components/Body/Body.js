@@ -1,5 +1,8 @@
 import React from "react";
-import {View, Fragment} from "react-native";
+import {Fragment} from "react";
+import {View} from "react-native";
+import {Button, Icon, Text} from "react-native-elements";
+import RefreshableList from "./RefreshableList";
 
 class Body extends React.Component{
 	constructor(props){
@@ -19,12 +22,36 @@ class Body extends React.Component{
 				}}>
 					<View style={{
 						height: 50,
-						flexDirection: 'column',
+						flexDirection: 'row',
 						justifyContent: 'space-between',
+						padding: 8
 					}}>
-						<Text>Hello</Text>
+						<Button
+							icon={
+								<Icon
+									name="add"
+									size={15}
+									type={"material"}
+									color="white"
+								/>
+							}
+							title = "Ajouter"
+							containerStyle = {{borderRadius: 50}}
+						/>
+						<Text>Bleh bleh filter</Text>
+						<Button
+							title = "Supprimer"
+							containerStyle = {{borderRadius: 50}}
+						/>
 					</View>
+					<RefreshableList
+						data = {this.props.data}
+						fetchData = {this.props.onRefresh}
+						refreshing = {this.props.refreshing}
+					/>
 				</View>
-			</Fragment>)
+		</Fragment>)
 	}
 }
+
+export default Body;
