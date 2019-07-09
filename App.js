@@ -10,6 +10,7 @@ import React from 'react';
 import LocationContainer from "./Components/LocationContainer";
 import {getLocation, getLocationNames} from "./utils/dataRequests";
 import {Text} from "react-native-elements";
+import Loading from "./Components/Loading";
 
 export default class App extends React.Component{
     constructor(props){
@@ -51,7 +52,7 @@ export default class App extends React.Component{
             />
         }
         else{
-            return <Text>Waiting for location</Text>
+            return <Loading/>
         }
     }
 }
