@@ -5,7 +5,9 @@ import DatePicker from "react-native-datepicker";
 import moment from "moment";
 import {categories} from "../../utils/categories";
 import {capitalize} from "../../utils/stringUtils";
+import {bestBefore} from "../../utils/bestbefore";
 import lodash from "lodash";
+import uuid from "uuid"
 
 const dateFormat = "DD-MM-YYYY";
 const styles = {
@@ -22,28 +24,35 @@ const styles = {
 };
 
 type Props = {};
-export default class Item extends Component<Props> {
+export default class AddItem extends Component<Props> {
 	constructor(props) {
 		super(props);
 		this.state = {
 			item: {},
-			isModifying: false,
 		};
 	}
 
-	componentDidUpdate(prevProps){
+	componentDidUpdate(prevProps, prevState){
+		const {item} = this.state;
+		const {container} = this.props;
+		const prevItem = prevState.item;
+		const bestBeforeDays = bestBefore[container] ? bestBefore[container][item.category] || 1 : 1;
 		if(this.props.isVisible && !prevProps.isVisible){ //Open the overlay
-			this.setState({item: lodash.cloneDeep(this.props.item), isModifying: false})
+			this.setState({item: {
+					id: uuid(),
+					startdate: moment().toISOString(),
+				}})
 		}
-		if(!this.props.isVisible && prevProps.isVisible){ //Close the overlay
-			this.setState({item: {}, isModifying: false})
+		if(item.category !== prevItem.category || item.startdate !== prevItem.startdate){
+			const enddate = moment(item.startdate).add(bestBeforeDays, "d").format(dateFormat)
+			this.modifyDate("enddate")(enddate)
 		}
 	}
 
 	modifyDate(key){
 		const self = this;
 		return function(date){
-			const newItem = Object.assign(self.state.item, {[key] : moment(date, dateFormat).toISOString()});
+			const newItem = Object.assign(lodash.clone(self.state.item), {[key] : moment(date, dateFormat).toISOString()});
 			self.setState({item: newItem})
 		}
 	}
@@ -51,7 +60,7 @@ export default class Item extends Component<Props> {
 	modifyField(key){
 		const self = this;
 		return function(value){
-			const newItem = Object.assign(self.state.item, {[key] : value});
+			const newItem = Object.assign(lodash.clone(self.state.item), {[key] : value});
 			self.setState({item: newItem})
 		}
 	}
@@ -63,14 +72,13 @@ export default class Item extends Component<Props> {
 
 	render() {
 		const {isVisible, onClose} = this.props;
-		const {item, isModifying} = this.state;
+		const {item} = this.state;
 		return (
 			<Overlay onBackdropPress={onClose} isVisible={isVisible}>
 				<View style ={{flex:1, padding: 8}}>
-					<View><Text h2>{item.name}</Text></View>
+					<View><Text h2>Nouvel item</Text></View>
 					<ScrollView style = {styles.container}>
 						<Input
-							editable = {isModifying}
 							value = {item.name}
 							containerStyle = {{display: "flex", marginTop: 8}}
 							label = {"Nom"}
@@ -81,7 +89,6 @@ export default class Item extends Component<Props> {
 						<View style = {{display: "flex", marginTop: 8}}>
 							<Text>Catégorie</Text>
 							<Picker
-								enabled={isModifying}
 								selectedValue={item.category}
 								style={{height: 50, width: "100%"}}
 								prompt = {"Catégorie"}
@@ -94,7 +101,6 @@ export default class Item extends Component<Props> {
 						<Divider style = {styles.divider}/>
 
 						<Input
-							editable = {isModifying}
 							value = {item.qty}
 							containerStyle = {{display: "flex", marginTop: 8}}
 							label = {"Quantité"}
@@ -104,7 +110,6 @@ export default class Item extends Component<Props> {
 						<View style = {{display: "flex", marginTop: 8}}>
 							<Text>Date d'ajout</Text>
 							<DatePicker
-								disabled={!isModifying}
 								style={{width: 200}}
 								date={moment(this.state.item.startdate).format(dateFormat)}
 								mode="date"
@@ -130,7 +135,6 @@ export default class Item extends Component<Props> {
 						<View style = {{display: "flex", marginTop: 8}}>
 							<Text>Date de péremption</Text>
 							<DatePicker
-								disabled={!isModifying}
 								style={{width: 200}}
 								date={moment(this.state.item.enddate).format(dateFormat)}
 								mode="date"
@@ -164,34 +168,10 @@ export default class Item extends Component<Props> {
 							onPress = {this.props.onClose}
 							containerStyle ={{width: "33%"}}
 						/>
-						{isModifying ?
-							<Button
-								title = {"Confirmer"}
-								containerStyle ={{width: "33%"}}
-								onPress = {this.confirmChanges.bind(this)}
-							/>
-							:
-							<Button
-							title = {"Modifier"}
-							containerStyle ={{width: "33%"}}
-							onPress = {() => {this.setState({isModifying: true})}}
-						/>}
-					</View>
-					<View
-						style = {{
-							display: "flex",
-							flexDirection: "row",
-							justifyContent: 'space-between',
-							width: "100%",
-						paddingTop: 8}}>
 						<Button
-							title = {"Supprimer"}
-							containerStyle ={{width: "100%"}}
-							buttonStyle = {{backgroundColor: "red"}}
-							onPress = {() => {
-								this.props.onClose()
-								this.props.deleteItem(item.id)
-							}}
+							title = {"Ajouter"}
+							onPress = {this.confirmChanges.bind(this)}
+							containerStyle ={{width: "33%"}}
 						/>
 					</View>
 				</View>

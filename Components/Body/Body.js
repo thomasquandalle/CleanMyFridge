@@ -3,6 +3,7 @@ import {Fragment} from "react";
 import {View} from "react-native";
 import {Button, Icon, Text} from "react-native-elements";
 import RefreshableList from "./RefreshableList";
+import AddItem from "./AddItem";
 
 class Body extends React.Component{
 	constructor(props){
@@ -24,7 +25,8 @@ class Body extends React.Component{
 						height: 50,
 						flexDirection: 'row',
 						justifyContent: 'space-between',
-						padding: 8
+						padding: 8,
+						marginBottom: 8
 					}}>
 						<Button
 							icon={
@@ -37,6 +39,7 @@ class Body extends React.Component{
 							}
 							title = "Ajouter"
 							containerStyle = {{borderRadius: 50}}
+							onPress = {() => this.setState({addItem: true})}
 						/>
 						<Text>Bleh bleh filter</Text>
 						<Button
@@ -52,6 +55,12 @@ class Body extends React.Component{
 						deleteItem = {this.props.deleteItem}
 					/>
 				</View>
+				<AddItem
+					isVisible = {this.state.addItem}
+					onClose = {() =>this.setState({addItem: false})}
+					addItem = {this.props.addItem}
+					container = {this.props.container}
+				/>
 		</Fragment>)
 	}
 }

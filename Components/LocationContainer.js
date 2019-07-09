@@ -34,6 +34,16 @@ class LocationContainer extends React.Component{
 		writeLocation(location).catch(e => console.error(e))
 	}
 
+	addItem(item){
+		if(item.id){
+			const {location} = this.props;
+			const footerKeys = Object.keys(location.lists).filter(l => location.lists[l]);
+			let data = location.data[footerKeys[this.state.listIndex]];
+			data.push(item);
+			writeLocation(location).catch(e => console.error(e))
+		}
+	}
+
 	deleteItem(id){
 		const {location} = this.props;
 		const footerKeys = Object.keys(location.lists).filter(l => location.lists[l]);
@@ -66,7 +76,9 @@ class LocationContainer extends React.Component{
 					onRefresh = {this.onRefresh.bind(this)}
 					changeItem = {this.changeItem.bind(this)}
 					deleteItem = {this.deleteItem.bind(this)}
+					addItem = {this.addItem.bind(this)}
 					refreshing = {this.state.refreshing}
+					container = {footerKeys[this.state.listIndex]}
 				/>
 				<Footer
 					buttons = {footerButtons}
