@@ -48,6 +48,8 @@ class Body extends React.Component{
 						data = {this.props.data}
 						fetchData = {this.props.onRefresh}
 						refreshing = {this.props.refreshing}
+						changeItem = {this.props.changeItem}
+						deleteItem = {this.props.deleteItem}
 					/>
 				</View>
 		</Fragment>)

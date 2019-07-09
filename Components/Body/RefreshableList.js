@@ -10,7 +10,7 @@ export default class RefreshableList extends Component<Props> {
 		super(props);
 		this.state = {
 			visible: false,
-			item: {}
+			item: {},
 		};
 	}
 
@@ -35,7 +35,7 @@ export default class RefreshableList extends Component<Props> {
 							data.map((l, i) => (
 								<ListItem
 									style = {{width: '100%'}}
-									key={i}
+									key={l.id}
 									title={l.name}
 									rightTitle = {moment(l.enddate).format("DD-MM-YYYY")}
 									subtitle={l.qty}
@@ -49,6 +49,8 @@ export default class RefreshableList extends Component<Props> {
 					isVisible = {this.state.visible}
 					item = {this.state.item}
 					onClose = {() => {this.setState({visible: false, item: {}})}}
+					changeItem = {this.props.changeItem}
+					deleteItem = {this.props.deleteItem}
 				/>
 			</Fragment>
 		);
