@@ -1,19 +1,40 @@
-import React from "react";
-import {Fragment} from "react";
-import {View} from "react-native";
-import {Button, Icon, Text} from "react-native-elements";
+import React, {Fragment} from "react";
+import {Picker, View} from "react-native";
+import {Button, Icon} from "react-native-elements";
 import RefreshableList from "./RefreshableList";
 import AddItem from "./AddItem";
+import {capitalize} from "../../utils/stringUtils";
+import lodash from "lodash";
 
+const orderByGen = container => (
+	container === "COURSES" ?
+		{
+			"enddate": "Date de péremption",
+			"startdate": "Date d'ajout",
+			"name": "Nom",
+			"category": "Catégorie"
+		} :
+		{
+			"enddate": "Date de péremption",
+			"startdate": "Date d'ajout",
+			"name": "Nom",
+			"category": "Catégorie"
+		});
 class Body extends React.Component{
 	constructor(props){
 		super(props);
 		this.state = {
 			addItem: false,
+			orderBy: null
 		}
 	}
 
 	render(){
+		let data = this.props.data;
+		const orderBy = orderByGen(this.props.container);
+		if(orderBy){
+			data = lodash.sortBy(data, d => d[this.state.orderBy])
+		}
 		return (
 			<Fragment>
 				<View style={{
@@ -41,14 +62,17 @@ class Body extends React.Component{
 							containerStyle = {{borderRadius: 50}}
 							onPress = {() => this.setState({addItem: true})}
 						/>
-						<Text>Bleh bleh filter</Text>
-						<Button
-							title = "Supprimer"
-							containerStyle = {{borderRadius: 50}}
-						/>
+						<Picker
+							selectedValue={this.state.orderBy}
+							style={{height: 50, width: "33%"}}
+							prompt = {"Trier par"}
+							onValueChange={orderBy => this.setState({orderBy})}>
+							<Picker.Item label={"Trier par.."} value={null} key={"null"}/>
+							{Object.keys(orderBy).map((key => <Picker.Item label={capitalize(orderBy[key])} value={key} key={key}/>))}
+						</Picker>
 					</View>
 					<RefreshableList
-						data = {this.props.data}
+						data = {data}
 						fetchData = {this.props.onRefresh}
 						refreshing = {this.props.refreshing}
 						changeItem = {this.props.changeItem}
