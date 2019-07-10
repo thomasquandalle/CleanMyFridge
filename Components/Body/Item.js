@@ -58,7 +58,7 @@ export default class Item extends Component<Props> {
 
 	confirmChanges(){
 		this.props.onClose();
-		this.props.addItem(this.state.item)
+		this.props.changeItem(this.state.item)
 	}
 
 	render() {
