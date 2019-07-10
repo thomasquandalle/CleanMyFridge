@@ -70,7 +70,10 @@ class LocationContainer extends React.Component{
 				flexDirection: 'column',
 				justifyContent: 'space-between',
 			}}>
-				<Header location={location.name} />
+				<Header
+					location={location.name}
+					onClick = {this.props.onHeaderClick}
+				/>
 				<Body
 					data = {location.data[footerKeys[this.state.listIndex]]}
 					onRefresh = {this.onRefresh.bind(this)}

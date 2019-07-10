@@ -9,8 +9,9 @@
 import React from 'react';
 import LocationContainer from "./Components/LocationContainer";
 import {getLocation, getLocationNames} from "./utils/dataRequests";
-import {Text} from "react-native-elements";
 import Loading from "./Components/Loading";
+import {Fragment} from "react";
+import LocationChoice from "./Components/LocationChoice/LocationChoice";
 
 export default class App extends React.Component{
     constructor(props){
@@ -18,7 +19,8 @@ export default class App extends React.Component{
         this.state = {
             location: null,
             locationName: "",
-            locations : null
+            locations : null,
+            locationChoiceOpened: false,
         }
     }
 
@@ -38,6 +40,7 @@ export default class App extends React.Component{
 
     componentDidUpdate(prevProps, prevState){
         if(this.state.locationName !== prevState.locationName){
+            this.setState({location: null});
             getLocation(this.state.locationName).then(location => {
                 this.setState({location})
             })
@@ -46,10 +49,24 @@ export default class App extends React.Component{
 
     render(){
         if(this.state.location){
-            return <LocationContainer
-                location = {this.state.location}
-                refresh = {this.refresh.bind(this)}
-            />
+            return (
+                <Fragment>
+                    <LocationContainer
+                        location = {this.state.location}
+                        refresh = {this.refresh.bind(this)}
+                        onHeaderClick = {() => this.setState({locationChoiceOpened: true})}
+                    />
+                    <LocationChoice
+                        open = {this.state.locationChoiceOpened}
+                        onClose = {() => this.setState({locationChoiceOpened: false})}
+                        onChoose = {(name) => this.setState({locationName: name})}
+                        names = {this.state.locations}
+                        onAdd = {() => {
+                            getLocationNames().then(names => {
+                            this.setState({locations: names});
+                        })}}
+                    />
+                </Fragment>)
         }
         else{
             return <Loading/>

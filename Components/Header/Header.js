@@ -15,7 +15,7 @@ const LocationHeader = props => {
       centerComponent={
         <Button
           title={props.location}
-          onPress={() => console.warn("Change location")}
+          onPress={props.onClick}
           type={"clear"}
         />
       }
