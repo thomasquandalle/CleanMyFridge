@@ -31,7 +31,7 @@ class LocationContainer extends React.Component{
 		let data = location.data[footerKeys[this.state.listIndex]];
 		const index = data.findIndex(it => (it.id === item.id));
 		data[index] = item
-		writeLocation(location).catch(e => console.error(e))
+		writeLocation(location).catch(e => console.error(e)).then(this.onRefresh.bind(this))
 	}
 
 	addItem(item){
@@ -40,7 +40,7 @@ class LocationContainer extends React.Component{
 			const footerKeys = Object.keys(location.lists).filter(l => location.lists[l]);
 			let data = location.data[footerKeys[this.state.listIndex]];
 			data.push(item);
-			writeLocation(location).catch(e => console.error(e))
+			writeLocation(location).catch(e => console.error(e)).then(this.onRefresh.bind(this))
 		}
 	}
 
@@ -50,7 +50,7 @@ class LocationContainer extends React.Component{
 		let data = location.data[footerKeys[this.state.listIndex]];
 		const index = data.findIndex(it => (it.id === id));
 		data = data.splice(index, 1);
-		writeLocation(location).catch(e => console.error(e))
+		writeLocation(location).catch(e => console.error(e)).then(this.onRefresh.bind(this))
 	}
 
 	onRefresh(){
