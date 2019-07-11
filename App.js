@@ -61,7 +61,7 @@ export default class App extends React.Component{
                         onClose = {() => this.setState({locationChoiceOpened: false})}
                         onChoose = {(name) => this.setState({locationName: name})}
                         names = {this.state.locations}
-                        onAdd = {() => {
+                        refreshLocations = {() => {
                             getLocationNames().then(names => {
                             this.setState({locations: names});
                         })}}

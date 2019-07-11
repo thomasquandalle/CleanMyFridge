@@ -16,7 +16,6 @@ export async function getLocation(name){
 			return JSON.parse(value)
 		}
 	} catch(e) {
-		// error reading value
 	}
 }
 
@@ -57,4 +56,18 @@ export async function addLocation(name, lists){
 	await AsyncStorage.setItem("locationList", JSON.stringify(locations))
 	writeLocation(location).catch(e => console.error(e));
 	return true
+}
+
+export async function deleteLocations(locationIndexes){
+	let locations = await getLocationNames();
+	if(locationIndexes.length === locations.length){
+		throw new Error("Merci de laisser un endroit")
+	}
+	for(let index of locationIndexes){
+		const name = locations[index];
+		locations.splice(index, 1);
+		await AsyncStorage.removeItem(name);
+	}
+	AsyncStorage.setItem("locationList", JSON.stringify(locations));
+	return true;
 }

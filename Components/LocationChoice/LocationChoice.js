@@ -1,14 +1,17 @@
 import React, {Fragment} from "react";
 import {ScrollView, View} from "react-native";
 import {Button, ListItem, Overlay, Text} from "react-native-elements";
-import {addLocation} from "../../utils/dataRequests";
+import {addLocation, deleteLocation, deleteLocations} from "../../utils/dataRequests";
 import AddLocation from "./AddLocation";
+import lodash from "lodash";
 
 export default class LocationChoice extends React.Component{
 	constructor(props){
 		super(props);
 		this.state = {
 			addOpen: false,
+			multiSelect: false,
+			checked : []
 		}
 	}
 
@@ -29,19 +32,78 @@ export default class LocationChoice extends React.Component{
 										key={i}
 										title={l}
 										bottomDivider
+										checkmark = {this.state.multiSelect  && this.state.checked.findIndex(j => i===j) > -1}
+										onLongPress = {() => {
+											if(this.state.multiSelect === false){
+												this.setState({multiSelect: true, checked: [i]})
+											}
+											else{
+												const checked = lodash.clone(this.state.checked)
+												const index = this.state.checked.findIndex(j => i===j)
+												if(index === -1)
+													checked.push(i);
+												else
+													checked.splice(index,1);
+												this.setState({checked})
+											}
+
+
+										}}
 										onPress = {() => {
-											this.props.onChoose(l);
-											this.props.onClose();
+											if(this.state.multiSelect === false){
+												this.props.onChoose(l);
+												this.props.onClose();
+											}
+											else{
+												const checked = lodash.clone(this.state.checked)
+												const index = this.state.checked.findIndex(j => i===j)
+												if(index === -1)
+													checked.push(i);
+												else
+													checked.splice(index,1);
+												this.setState({checked})
+											}
 										}}
 									/>
 								))
 							}
 						</ScrollView>
-						<Button
-							title = {"Ajouter"}
-							containerStyle ={{width: "100%"}}
-							onPress = {() => this.setState({addOpen: true})}
-						/>
+						{this.state.multiSelect ?
+							<View
+								style = {{
+									display: "flex",
+									flexDirection: "row",
+									justifyContent: 'space-between',
+									width: "100%",
+									paddingTop: 8}}>
+								<Button
+									title = {"Annuler"}
+									containerStyle ={{width: "40%"}}
+									onPress = {() => {
+										this.setState({multiSelect: false})
+									}}
+								/>
+								<Button
+									title = {"Supprimer"}
+									containerStyle ={{width: "40%"}}
+									buttonStyle = {{backgroundColor: "red"}}
+									onPress = {() => {
+										deleteLocations(this.state.checked).catch(e => console.warn(e.message)).then(value => {
+											if(value){
+												this.setState({multiSelect: false})
+												this.props.refreshLocations()
+											}
+										})
+									}}
+								/>
+							</View>
+							:
+								<Button
+									title = {"Ajouter"}
+									containerStyle ={{width: "100%"}}
+									onPress = {() => this.setState({addOpen: true})}
+								/>
+							}
 					</View>
 				</Overlay>
 				<AddLocation
@@ -51,7 +113,7 @@ export default class LocationChoice extends React.Component{
 						addLocation(name,checked).then((value) => {
 							if(value) {
 								this.setState({addOpen: false})
-								this.props.onAdd();
+								this.props.refreshLocations();
 							}
 						}).catch(e => console.warn(e.message))
 
