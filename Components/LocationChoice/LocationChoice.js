@@ -1,7 +1,7 @@
 import React, {Fragment} from "react";
 import {ScrollView, View} from "react-native";
 import {Button, ListItem, Overlay, Text} from "react-native-elements";
-import {addLocation, deleteLocation, deleteLocations} from "../../utils/dataRequests";
+import {addLocation, deleteLocations} from "../../utils/dataRequests";
 import AddLocation from "./AddLocation";
 import lodash from "lodash";
 
