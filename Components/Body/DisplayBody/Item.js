@@ -3,8 +3,8 @@ import {View, ScrollView, Picker} from "react-native";
 import {Overlay, Text, Input, Button, Divider} from "react-native-elements";
 import DatePicker from "react-native-datepicker";
 import moment from "moment";
-import {categories} from "../../utils/categories";
-import {capitalize} from "../../utils/stringUtils";
+import {categories} from "../../../utils/categories";
+import {capitalize} from "../../../utils/stringUtils";
 import lodash from "lodash";
 
 const dateFormat = "DD-MM-YYYY";

@@ -13,7 +13,7 @@ import Header from "./Header/Header";
 import {View} from "react-native";
 import Footer from "./Footer/Footer";
 import {displayNames} from "../utils/lists";
-import Body from "./Body/Body";
+import Body from "./Body/BodyContainer";
 import {writeLocation} from "../utils/dataRequests";
 
 class LocationContainer extends React.Component{

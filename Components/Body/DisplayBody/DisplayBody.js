@@ -3,7 +3,7 @@ import {Picker, View} from "react-native";
 import {Button, Icon} from "react-native-elements";
 import RefreshableList from "./RefreshableList";
 import AddItem from "./AddItem";
-import {capitalize} from "../../utils/stringUtils";
+import {capitalize} from "../../../utils/stringUtils";
 import lodash from "lodash";
 
 const orderByGen = container => (
@@ -20,7 +20,7 @@ const orderByGen = container => (
 			"name": "Nom",
 			"category": "Catégorie"
 		});
-class Body extends React.Component{
+class DisplayBody extends React.Component{
 	constructor(props){
 		super(props);
 		this.state = {
@@ -73,6 +73,7 @@ class Body extends React.Component{
 					</View>
 					<RefreshableList
 						data = {data}
+						onLongPress = {this.props.onModify}
 						fetchData = {this.props.onRefresh}
 						refreshing = {this.props.refreshing}
 						changeItem = {this.props.changeItem}
@@ -89,4 +90,4 @@ class Body extends React.Component{
 	}
 }
 
-export default Body;
+export default DisplayBody;

@@ -34,6 +34,7 @@ export default class RefreshableList extends Component<Props> {
 						{
 							data.map((l, i) => (
 								<ListItem
+									onLongPress = {this.props.onLongPress}
 									style = {{width: '100%'}}
 									key={l.id}
 									title={l.name}
