@@ -1,9 +1,9 @@
 import React, {Fragment} from "react";
 import {ScrollView, View} from "react-native";
 import {Button, ListItem, Overlay, Text} from "react-native-elements";
-import {addLocation, deleteLocations} from "../../utils/dataRequests";
 import AddLocation from "./AddLocation";
 import lodash from "lodash";
+import {addLocation, deleteLocations} from "../../api/dataFunctions";
 
 export default class LocationChoice extends React.Component{
 	constructor(props){

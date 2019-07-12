@@ -14,7 +14,7 @@ import {View} from "react-native";
 import Footer from "./Footer/Footer";
 import {displayNames} from "../utils/lists";
 import Body from "./Body/BodyContainer";
-import {writeLocation} from "../utils/dataRequests";
+import {writeLocation} from "../api/dataRequests";
 
 class LocationContainer extends React.Component{
 	constructor(props){

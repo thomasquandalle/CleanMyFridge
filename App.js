@@ -8,7 +8,7 @@
 
 import React from 'react';
 import LocationContainer from "./Components/LocationContainer";
-import {getLocation, getLocationNames} from "./utils/dataRequests";
+import {getLocation, getLocationNames} from "./api/dataRequests";
 import Loading from "./Components/Loading";
 import {Fragment} from "react";
 import LocationChoice from "./Components/LocationChoice/LocationChoice";
