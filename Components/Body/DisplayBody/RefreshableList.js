@@ -16,7 +16,7 @@ export default class RefreshableList extends Component<Props> {
 
 
 	_onRefresh = () => {
-		this.props.fetchData()
+		this.props.onRefresh()
 	};
 
 	render() {
@@ -47,11 +47,12 @@ export default class RefreshableList extends Component<Props> {
 						}
 				</ScrollView>
 				<Item
+					locationName = {this.props.locationName}
+					container = {this.props.container}
 					isVisible = {this.state.visible}
+					onRefresh = {this.props.onRefresh}
 					item = {this.state.item}
 					onClose = {() => {this.setState({visible: false, item: {}})}}
-					changeItem = {this.props.changeItem}
-					deleteItem = {this.props.deleteItem}
 				/>
 			</Fragment>
 		);

@@ -6,6 +6,7 @@ import moment from "moment";
 import {categories} from "../../../utils/categories";
 import {capitalize} from "../../../utils/stringUtils";
 import lodash from "lodash";
+import {changeItem, deleteItem} from "../../../api/dataFunctions";
 
 const dateFormat = "DD-MM-YYYY";
 const styles = {
@@ -58,7 +59,9 @@ export default class Item extends Component<Props> {
 
 	confirmChanges(){
 		this.props.onClose();
-		this.props.changeItem(this.state.item)
+		changeItem(this.props.locationName, this.props.container, this.state.item).then(() => {
+			this.props.onRefresh();
+		}).catch(e => console.warn(e.message))
 	}
 
 	render() {
@@ -190,7 +193,9 @@ export default class Item extends Component<Props> {
 							buttonStyle = {{backgroundColor: "red"}}
 							onPress = {() => {
 								this.props.onClose()
-								this.props.deleteItem(item.id)
+								deleteItem(this.props.locationName, this.props.container, this.state.item.id).then(() => {
+									this.props.onRefresh();
+								}).catch(e => console.warn(e.message))
 							}}
 						/>
 					</View>

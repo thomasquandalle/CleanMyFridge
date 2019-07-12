@@ -8,6 +8,7 @@ import {capitalize} from "../../../utils/stringUtils";
 import {bestBefore} from "../../../utils/bestbefore";
 import lodash from "lodash";
 import uuid from "uuid"
+import {addItem} from "../../../api/dataFunctions";
 
 const dateFormat = "DD-MM-YYYY";
 const styles = {
@@ -67,7 +68,9 @@ export default class AddItem extends Component<Props> {
 
 	confirmChanges(){
 		this.props.onClose();
-		this.props.addItem(this.state.item)
+		addItem(this.props.locationName, this.props.container, this.state.item).catch(e => console.warn(e)).then(() => {
+			this.props.onRefresh()
+		})
 	}
 
 	render() {

@@ -1,4 +1,5 @@
-import {deleteLocation, getLocationNames, writeLocation, writeLocationNames} from "./dataRequests";
+import {deleteLocation, getLocation, getLocationNames, writeLocation, writeLocationNames} from "./dataRequests";
+import lodash from "lodash";
 
 export async function addLocation(name, lists) {
 	let locations = await getLocationNames();
@@ -40,4 +41,39 @@ export async function deleteLocations(locationIndexes) {
 	}
 	await writeLocationNames(locations);
 	return true;
+}
+
+export async function addItem(locationName, containerId, item){
+	const location = await getLocation(locationName);
+	location.data[containerId].push(item);
+	await writeLocation(location);
+	return true;
+}
+
+export async function changeItem(locationName, containerId, item){
+	const location = await getLocation(locationName)
+	const data = lodash.clone(location.data[containerId]);
+	const index = data.findIndex(it => (it.id === item.id));
+	data[index] = item;
+	location.data[containerId] = data;
+	await writeLocation(location)
+	return true
+}
+
+export async function deleteItem(locationName, containerId, itemId){
+	await deleteItems(locationName, containerId, [itemId])
+}
+
+export async function deleteItems(locationName, containerId, itemIds){
+	const location = await getLocation(locationName);
+	const data = lodash.clone(location.data[containerId]);
+	for(let itemId of itemIds){
+		const index = data.findIndex(it => (it.id === itemId));
+		if(index >  -1){
+			data.splice(index, 1);
+		}
+	}
+	location.data[containerId] = data;
+	await writeLocation(location);
+	return true
 }

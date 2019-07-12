@@ -1,13 +1,18 @@
 import React from "react";
-import {Text} from "react-native-elements";
 import DisplayBody from "./DisplayBody/DisplayBody";
 import ModifyBody from "./ModifyBody/ModifyBody";
 
 export default class BodyContainer extends React.Component{
 	constructor(props){
-		super(props)
+		super(props);
 		this.state = {
 			modifying: false,
+		}
+	}
+
+	componentDidUpdate(prevProps){
+		if(this.props.container !== prevProps.container || this.props.locationName !== prevProps.locationName){
+			this.setState({modifying: false})
 		}
 	}
 

@@ -74,16 +74,17 @@ class DisplayBody extends React.Component{
 					<RefreshableList
 						data = {data}
 						onLongPress = {this.props.onModify}
-						fetchData = {this.props.onRefresh}
+						onRefresh = {this.props.onRefresh}
 						refreshing = {this.props.refreshing}
-						changeItem = {this.props.changeItem}
-						deleteItem = {this.props.deleteItem}
+						container = {this.props.container}
+						locationName = {this.props.locationName}
 					/>
 				</View>
 				<AddItem
 					isVisible = {this.state.addItem}
 					onClose = {() =>this.setState({addItem: false})}
-					addItem = {this.props.addItem}
+					onRefresh = {this.props.onRefresh}
+					locationName = {this.props.locationName}
 					container = {this.props.container}
 				/>
 		</Fragment>)
