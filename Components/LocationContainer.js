@@ -50,6 +50,7 @@ class LocationContainer extends React.Component{
 					locationName = {location.name}
 					data = {location.data[footerKeys[this.state.listIndex]]}
 					onRefresh = {this.onRefresh.bind(this)}
+					availableContainers = {footerKeys}
 					refreshing = {this.state.refreshing}
 					container = {footerKeys[this.state.listIndex]}
 				/>

@@ -43,13 +43,6 @@ export async function deleteLocations(locationIndexes) {
 	return true;
 }
 
-export async function addItem(locationName, containerId, item){
-	const location = await getLocation(locationName);
-	location.data[containerId].push(item);
-	await writeLocation(location);
-	return true;
-}
-
 export async function changeItem(locationName, containerId, item){
 	const location = await getLocation(locationName)
 	const data = lodash.clone(location.data[containerId]);
@@ -76,4 +69,17 @@ export async function deleteItems(locationName, containerId, itemIds){
 	location.data[containerId] = data;
 	await writeLocation(location);
 	return true
+}
+
+export async function addItem(locationName, containerId, item){
+	return await addItems(locationName, containerId, [item]);
+}
+
+export async function addItems(locationName, containerId, items){
+	const location = await getLocation(locationName);
+	for(let item of items){
+		location.data[containerId].push(item);
+	}
+	await writeLocation(location);
+	return true;
 }
