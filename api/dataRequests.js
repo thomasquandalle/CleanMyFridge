@@ -19,14 +19,17 @@ export async function getLocation(name){
 	}
 }
 
-export async function getLocationNames(locationNames) {
+export async function getLocationNames() {
 	try {
 		const value = await AsyncStorage.getItem('locationList');
 		if (value !== null) {
 			return JSON.parse(value)
 		}
+		else{
+			await AsyncStorage.setItem('locationList', JSON.stringify([]));
+			return []
+		}
 	} catch (e) {
-		// error reading value
 	}
 }
 
@@ -41,6 +44,28 @@ export async function writeLocationNames(locations){
 export async function deleteLocation(name){
 	try {
 		await AsyncStorage.removeItem(name);
+	} catch (e) {
+		console.error(e)
+	}
+}
+
+export async function getSettings(){
+	try {
+		const value = await AsyncStorage.getItem("settings");
+		if(value !== null) {
+			return JSON.parse(value)
+		}
+		else{
+			await AsyncStorage.setItem("settings", JSON.stringify({}));
+			return {}
+		}
+	} catch(e) {
+	}
+}
+
+export async function writeSettings(settingsObj){
+	try {
+		await AsyncStorage.setItem("settings", JSON.stringify(settingsObj))
 	} catch (e) {
 		console.error(e)
 	}

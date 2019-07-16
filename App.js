@@ -8,10 +8,11 @@
 
 import React from 'react';
 import LocationContainer from "./Components/LocationContainer";
-import {getLocation, getLocationNames} from "./api/dataRequests";
+import {getLocation, getLocationNames, getSettings} from "./api/dataRequests";
 import Loading from "./Components/Loading";
 import {Fragment} from "react";
 import LocationChoice from "./Components/LocationChoice/LocationChoice";
+import {changeSettings} from "./api/settingsFunctions";
 
 export default class App extends React.Component{
     constructor(props){
@@ -26,10 +27,22 @@ export default class App extends React.Component{
 
     componentDidMount(){
         const self = this;
-        //writeLocation(dummyLocation).then( setLocations(dummyLocation.name));
         getLocationNames().then(names => {
-            self.setState({locations: names, locationName: names[0]});
+            getSettings().then(value => {
+                if(value.location){
+                    self.setState({locations: names, locationName: value.location});
+                }
+                else{
+                    self.setState({locations: names, locationName: names[0]});
+                }
+            })
         })
+    }
+
+    changeLocation(name){
+        this.setState({locationName: name});
+        changeSettings('location', name).catch(e => console.warn(e));
+
     }
 
     async refresh(){
@@ -59,7 +72,7 @@ export default class App extends React.Component{
                     <LocationChoice
                         open = {this.state.locationChoiceOpened}
                         onClose = {() => this.setState({locationChoiceOpened: false})}
-                        onChoose = {(name) => this.setState({locationName: name})}
+                        onChoose = {name => this.changeLocation(name)}
                         names = {this.state.locations}
                         refreshLocations = {() => {
                             getLocationNames().then(names => {

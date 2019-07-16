@@ -1,3 +1,5 @@
+import uuid from "uuid";
+
 export const dummyLocation = {
 	name: "Maison",
 	lists: {
@@ -41,4 +43,8 @@ export const dummyLocation = {
 				enddate: new Date(new Date().getTime() + 1000 * 3600 * 12).toISOString()
 			}],
 	}
+};
+
+export const dummySettings = {
+	currentLocation: "Maison"
 };
