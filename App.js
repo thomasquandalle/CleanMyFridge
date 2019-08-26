@@ -8,11 +8,12 @@
 
 import React from 'react';
 import LocationContainer from "./Components/LocationContainer";
-import {getLocation, getLocationNames, getSettings} from "./api/dataRequests";
+import {getLocation, getLocationNames, getSettings, writeLocation} from "./api/dataRequests";
 import Loading from "./Components/Loading";
 import {Fragment} from "react";
 import LocationChoice from "./Components/LocationChoice/LocationChoice";
-import {changeSettings} from "./api/settingsFunctions";
+import {changeSettings, } from "./api/settingsFunctions";
+import {addLocation} from "./api/dataFunctions";
 
 export default class App extends React.Component{
     constructor(props){
@@ -28,14 +29,27 @@ export default class App extends React.Component{
     componentDidMount(){
         const self = this;
         getLocationNames().then(names => {
-            getSettings().then(value => {
-                if(value.location){
-                    self.setState({locations: names, locationName: value.location});
-                }
-                else{
-                    self.setState({locations: names, locationName: names[0]});
-                }
-            })
+            if(!names.length){
+                const name = "Maison";
+                //Create first location ==> todo
+                addLocation(name,{
+                        CONGELATEUR :true,
+                        FRIGO: true,
+                        COURSES: true,
+                    }).then(success => {
+                    self.setState({locations: [name], locationName: name})
+                })
+            }
+            else{
+                getSettings().then(value => {
+                    if(value.location){
+                        self.setState({locations: names, locationName: value.location});
+                    }
+                    else{
+                        self.setState({locations: names, locationName: names[0]});
+                    }
+                })
+            }
         })
     }
 

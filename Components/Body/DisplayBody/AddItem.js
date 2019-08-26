@@ -167,11 +167,13 @@ export default class AddItem extends Component<Props> {
 							justifyContent: 'space-between',
 							width: "100%"}}>
 						<Button
+							buttonStyle = {{backgroundColor: "#0004A4"}}
 							title = {"Annuler"}
 							onPress = {this.props.onClose}
 							containerStyle ={{width: "33%"}}
 						/>
 						<Button
+							buttonStyle = {{backgroundColor: "#0004A4"}}
 							title = {"Ajouter"}
 							onPress = {this.confirmChanges.bind(this)}
 							containerStyle ={{width: "33%"}}

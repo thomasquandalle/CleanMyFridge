@@ -78,6 +78,7 @@ export default class LocationChoice extends React.Component{
 									paddingTop: 8}}>
 								<Button
 									title = {"Annuler"}
+									buttonStyle = {{backgroundColor: "#0004A4"}}
 									containerStyle ={{width: "40%"}}
 									onPress = {() => {
 										this.setState({multiSelect: false})
@@ -100,6 +101,7 @@ export default class LocationChoice extends React.Component{
 							:
 								<Button
 									title = {"Ajouter"}
+									buttonStyle = {{backgroundColor: "#0004A4"}}
 									containerStyle ={{width: "100%"}}
 									onPress = {() => this.setState({addOpen: true})}
 								/>

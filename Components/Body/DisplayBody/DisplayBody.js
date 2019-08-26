@@ -59,7 +59,7 @@ class DisplayBody extends React.Component{
 								/>
 							}
 							title = "Ajouter"
-							containerStyle = {{borderRadius: 50}}
+							buttonStyle = {{backgroundColor: '#0004A4'}}
 							onPress = {() => this.setState({addItem: true})}
 						/>
 						<Picker

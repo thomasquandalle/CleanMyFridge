@@ -53,6 +53,7 @@ export default class AddLocation extends React.Component{
 					<Button
 						title = {"Ajouter"}
 						containerStyle ={{width: "100%"}}
+						buttonStyle = {{backgroundColor: "#0004A4"}}
 						onPress = {() => this.props.onAdd(this.state.name, this.state.checked)}
 					/>
 				</View>

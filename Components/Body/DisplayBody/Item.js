@@ -166,17 +166,20 @@ export default class Item extends Component<Props> {
 							title = {"Annuler"}
 							onPress = {this.props.onClose}
 							containerStyle ={{width: "33%"}}
+							buttonStyle = {{backgroundColor: "#0004A4"}}
 						/>
 						{isModifying ?
 							<Button
 								title = {"Confirmer"}
 								containerStyle ={{width: "33%"}}
 								onPress = {this.confirmChanges.bind(this)}
+								buttonStyle = {{backgroundColor: "#0004A4"}}
 							/>
 							:
 							<Button
 							title = {"Modifier"}
 							containerStyle ={{width: "33%"}}
+							buttonStyle = {{backgroundColor: "#0004A4"}}
 							onPress = {() => {this.setState({isModifying: true})}}
 						/>}
 					</View>
