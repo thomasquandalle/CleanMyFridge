@@ -47,9 +47,7 @@ export async function deleteLocations(locationIndexes) {
 }
 
 export async function changeItem(locationName, containerId, item){
-	console.log(locationName, containerId, item);
 	const location = await getLocation(locationName);
-	console.log(location)
 	const data = lodash.clone(location.data[containerId]);
 	const index = data.findIndex(it => (it.id === item.id));
 	data[index] = item;
