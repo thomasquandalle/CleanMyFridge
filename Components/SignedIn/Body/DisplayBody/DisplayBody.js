@@ -3,7 +3,7 @@ import {Picker, View} from "react-native";
 import {Button, Icon} from "react-native-elements";
 import RefreshableList from "./RefreshableList";
 import AddItem from "./AddItem";
-import {capitalize} from "../../../utils/stringUtils";
+import {capitalize} from "../../../../utils/stringUtils";
 import lodash from "lodash";
 
 const orderByGen = container => (

@@ -1,9 +1,12 @@
 import {deleteLocation, getLocation, getLocationNames, writeLocation, writeLocationNames} from "./dataRequests";
 import lodash from "lodash";
+import uuid from "uuid";
 
 export async function addLocation(name, lists) {
 	let locations = await getLocationNames();
+	const id = uuid();
 	let location = {
+		id,
 		name: name,
 		lists: lists,
 		data: {}
@@ -19,14 +22,14 @@ export async function addLocation(name, lists) {
 	if (verifContainer) {
 		throw new Error("Un emplacement doit être sélectionné")
 	}
-	const verifName = name && !(locations.findIndex(n => n === name) > -1);
+	const verifName = name && !(locations.findIndex(n => n.name === name) > -1);
 	if (!verifName) {
 		throw new Error('Nom invalide')
 	}
-	locations.push(name);
+	locations.push({name, locationId: id, role: "admin"});
 	await writeLocationNames(locations);
 	writeLocation(location).catch(e => console.error(e));
-	return true
+	return id;
 }
 
 export async function deleteLocations(locationIndexes) {
@@ -35,21 +38,23 @@ export async function deleteLocations(locationIndexes) {
 		throw new Error("Merci de laisser un endroit")
 	}
 	for (let index of locationIndexes) {
-		const name = locations[index];
+		const id = locations[index].locationId;
 		locations.splice(index, 1);
-		await deleteLocation(name)
+		await deleteLocation(id)
 	}
 	await writeLocationNames(locations);
 	return true;
 }
 
 export async function changeItem(locationName, containerId, item){
-	const location = await getLocation(locationName)
+	console.log(locationName, containerId, item);
+	const location = await getLocation(locationName);
+	console.log(location)
 	const data = lodash.clone(location.data[containerId]);
 	const index = data.findIndex(it => (it.id === item.id));
 	data[index] = item;
 	location.data[containerId] = data;
-	await writeLocation(location)
+	await writeLocation(location);
 	return true
 }
 

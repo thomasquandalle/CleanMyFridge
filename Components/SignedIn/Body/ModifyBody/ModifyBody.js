@@ -2,10 +2,10 @@ import React from "react";
 import {Alert, View} from "react-native";
 import MultipleSelectList from "./MultipleSelectList";
 import ActionButtons from "./ActionButtons";
-import {addItems, deleteItems} from "../../../api/dataFunctions";
-import {displayNames} from "../../../utils/lists";
+import {addItems, deleteItems} from "../../../../api/dataFunctions";
+import {displayNames} from "../../../../utils/lists";
 import moment from "moment";
-import {bestBefore} from "../../../utils/bestbefore";
+import {bestBefore} from "../../../../utils/bestbefore";
 
 
 export default class ModifyBody extends React.Component{

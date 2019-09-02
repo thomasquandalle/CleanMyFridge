@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Header } from "react-native-elements";
+import {signOut} from "../../../api/networkRequests/authFunctions";
 
 const styles = {
 	container: {
@@ -21,6 +22,16 @@ const LocationHeader = props => {
 					title={props.location}
 					onPress={props.onClick}
 					type = 'clear'
+				/>
+			}
+			rightComponent = {
+				<Button
+					titleStyle = {{
+						color: 'white'
+					}}
+					title = "Logout"
+					onPress = {signOut}
+					type={"clear"}
 				/>
 			}
 			statusBarProps={{ barStyle: "light-content" }}

@@ -12,7 +12,7 @@ import React from 'react';
 import Header from "./Header/Header";
 import {View} from "react-native";
 import Footer from "./Footer/Footer";
-import {displayNames} from "../utils/lists";
+import {displayNames} from "../../utils/lists";
 import Body from "./Body/BodyContainer";
 
 class LocationContainer extends React.Component{
@@ -46,7 +46,7 @@ class LocationContainer extends React.Component{
 					onClick = {this.props.onHeaderClick}
 				/>
 				<Body
-					locationName = {location.name}
+					locationName = {location.id}
 					data = {location.data[footerKeys[this.state.listIndex]]}
 					onRefresh = {this.onRefresh.bind(this)}
 					availableContainers = {footerKeys}

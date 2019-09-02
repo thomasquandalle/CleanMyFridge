@@ -1,7 +1,7 @@
 import React from "react";
 import {ScrollView, View} from "react-native";
 import {Button, CheckBox, Input, Overlay, Text} from "react-native-elements";
-import {displayNames} from "../../utils/lists";
+import {displayNames} from "../../../utils/lists";
 import lodash from "lodash";
 
 

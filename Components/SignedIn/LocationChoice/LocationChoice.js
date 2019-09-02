@@ -3,7 +3,7 @@ import {ScrollView, View} from "react-native";
 import {Button, ListItem, Overlay, Text} from "react-native-elements";
 import AddLocation from "./AddLocation";
 import lodash from "lodash";
-import {addLocation, deleteLocations} from "../../api/dataFunctions";
+import {addLocation, deleteLocations} from "../../../api/dataFunctions";
 
 export default class LocationChoice extends React.Component{
 	constructor(props){
@@ -16,7 +16,7 @@ export default class LocationChoice extends React.Component{
 	}
 
 	render(){
-		const {names} = this.props;
+		const {locations} = this.props;
 		return (
 			<Fragment>
 				<Overlay isVisible = {this.props.open} onBackdropPress={this.props.onClose}>
@@ -26,11 +26,11 @@ export default class LocationChoice extends React.Component{
 							style = {{ width: '100%'}}
 						>
 							{
-								names.map((l, i) => (
+								locations.map((l, i) => (
 									<ListItem
 										style = {{width: '100%'}}
-										key={i}
-										title={l}
+										key={l.locationId}
+										title={l.name}
 										bottomDivider
 										checkmark = {this.state.multiSelect  && this.state.checked.findIndex(j => i===j) > -1}
 										onLongPress = {() => {
@@ -51,12 +51,12 @@ export default class LocationChoice extends React.Component{
 										}}
 										onPress = {() => {
 											if(this.state.multiSelect === false){
-												this.props.onChoose(l);
+												this.props.onChoose(l.locationId);
 												this.props.onClose();
 											}
 											else{
 												const checked = lodash.clone(this.state.checked)
-												const index = this.state.checked.findIndex(j => i===j)
+												const index = this.state.checked.findIndex(j => i===j);
 												if(index === -1)
 													checked.push(i);
 												else
@@ -91,8 +91,13 @@ export default class LocationChoice extends React.Component{
 									onPress = {() => {
 										deleteLocations(this.state.checked).catch(e => console.warn(e.message)).then(value => {
 											if(value){
-												this.setState({multiSelect: false})
-												this.props.refreshLocations()
+												this.setState({multiSelect: false});
+												this.props.refreshLocations();
+												for(let i = 0; i < locations.length; i++){
+													if(this.state.checked.findIndex(j => i===j) === -1){
+														this.props.onChoose(locations[i].locationId);
+													}
+												}
 											}
 										})
 									}}
