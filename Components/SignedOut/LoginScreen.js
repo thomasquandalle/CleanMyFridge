@@ -40,7 +40,8 @@ export default class LoginScreen extends Component<Props> {
 				<View style ={{flex:1, padding: 8, alignContent: 'center'}}>
 					<View style = {styles.container}>
 						<Input
-							autoCompleteType = "username"
+							autoCapitalize = "none"
+							autoCompleteType = "email"
 							value = {this.state.username}
 							containerStyle = {{display: "flex", marginTop: 8}}
 							label = {"Mail"}

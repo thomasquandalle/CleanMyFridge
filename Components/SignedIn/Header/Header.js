@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Header } from "react-native-elements";
+import {Button, Header, Icon} from "react-native-elements";
 import {signOut} from "../../../api/networkRequests/authFunctions";
 
 const styles = {
@@ -26,10 +26,13 @@ const LocationHeader = props => {
 			}
 			rightComponent = {
 				<Button
-					titleStyle = {{
-						color: 'white'
-					}}
-					title = "Logout"
+					icon={
+						<Icon
+							name="power-settings-new"
+							type={"material"}
+							color="white"
+						/>
+					}
 					onPress = {signOut}
 					type={"clear"}
 				/>
